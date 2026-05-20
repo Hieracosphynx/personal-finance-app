@@ -54,8 +54,29 @@ PersonalFinanceApp/
 ---
 
 ## AI Development Notes
+  **What went well**
+  - Quickly scaffolded the full solution structure (UI, API, Core, Data)
+  - Explained Avalonia/MVVM concepts from scratch without assuming prior knowledge
+  - Caught the orphaned root-level duplicate project before it caused confusion
+  - Identified the List<T> → ObservableCollection<T> bug before you ran it
+  - Spotted LoadAccounts never being called
+  - Kept pace with your stack decisions (Plaid, PostgreSQL, .NET 9)
+  - Plaid link token working end to end
+  - Full Plaid Link flow working — access token saved to database
+  - Transactions syncing and displaying correctly
+  - Clean two-panel layout with separate Views and ViewModels
+  - Proactively suggested separating Views and ViewModels into subfolders
+  - Explained event subscription (+=) and MVVM patterns clearly
+  - Caught Cards/ being placed in Core when it belongs in UI
 
-*To be documented as the project evolves.*
+  **Limitations / friction points**
+  - Can't execute JavaScript, so couldn't fetch your shared Claude chat directly
+  - No AXAML-aware LSP to recommend for Neovim — that tooling gap is a real one
+  - Can't run the app to verify things visually
+  - The id → Id rename caused a migration mismatch — could have caught that earlier
+  - Gave wrong AddPlaid lambda syntax initially, causing unnecessary back and forth
+  - Incorrectly diagnosed the Plaid credentials issue — fix was ClientId/Secret on the request
+  - Gave wrong fix for the onSuccess async issue — actual problem was a typo
 
 ---
 
