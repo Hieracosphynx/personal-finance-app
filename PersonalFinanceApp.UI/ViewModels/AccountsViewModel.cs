@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,6 +36,16 @@ public partial class AccountsViewModel : ViewModelBase
 
         Accounts.Clear();
         await LoadAccounts();
+    }
+
+    [RelayCommand]
+    private void ConnectBank()
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "http://localhost:5101/plaid/connect",
+            UseShellExecute = true
+        });
     }
 
     private async Task LoadAccounts()

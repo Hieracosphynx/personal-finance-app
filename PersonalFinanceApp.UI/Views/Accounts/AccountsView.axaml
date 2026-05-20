@@ -8,22 +8,28 @@
              x:DataType="vm:AccountsViewModel">
 
      <StackPanel Margin="0 0 16 0">
-         <Grid ColumnDefinitions="* Auto" Margin="0 0 0 12">
+         <Grid ColumnDefinitions="* Auto Auto" Margin="0 0 0 12">
              <TextBlock Grid.Column="0"
                         Text="My Accounts"
                         FontSize="20"
                         FontWeight="Bold"/>
              <Button Grid.Column="1"
+                     Content="Connect"
+                     Command="{Binding ConnectBankCommand}"
+                     Margin="0 0 8 0"/>
+             <Button Grid.Column="2"
                      Content="Sync"
                      Command="{Binding SyncCommand}"/>
          </Grid>
-         
          <ListBox ItemsSource="{Binding Accounts}"
                   SelectedItem="{Binding SelectedAccount}">
              <ListBox.ItemTemplate>
                  <DataTemplate DataType="vm:AccountViewModel">
                      <Grid ColumnDefinitions="* Auto" Margin="0 4">
-                         <TextBlock Grid.Column="0" Text="{Binding DisplayName}"/>
+                         <TextBlock 
+                            TextTrimming="CharacterEllipsis" 
+                            Grid.Column="0" 
+                            Text="{Binding DisplayName}"/>
                          <TextBlock Grid.Column="1" Text="{Binding DisplayBalance}"/>
                      </Grid>
                  </DataTemplate>

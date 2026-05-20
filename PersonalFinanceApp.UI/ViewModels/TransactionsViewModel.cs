@@ -5,15 +5,18 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
 using PersonalFinanceApp.Core.Models;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PersonalFinanceApp.UI.ViewModels;
 
 public partial class TransactionsViewModel : ViewModelBase
 {
     public ObservableCollection<TransactionViewModel> Transactions { get; } = new();
+    private string _currentPlaidAccountId = string.Empty;
 
     public async Task LoadTransactions(string plaidAccountId)
     {
+        _currentPlaidAccountId = plaidAccountId;
         Transactions.Clear();
         using var http = new HttpClient();
         var transactions = await http.GetFromJsonAsync<List<Transaction>>(
@@ -25,6 +28,15 @@ public partial class TransactionsViewModel : ViewModelBase
         {
             Transactions.Add(new TransactionViewModel(t.Name, t.Category, t.Amount, t.Date));
         }
+    }
+
+    [RelayCommand]
+    private async Task Sync()
+    {
+        using var http = new HttpClient();
+        await http.PostAsync("http://localhost:5101/plaid/sync/transactions", null);
+        if (!string.IsNullOrEmpty(_currentPlaidAccountId))
+            await LoadTransactions(_currentPlaidAccountId);
     }
 }
 
