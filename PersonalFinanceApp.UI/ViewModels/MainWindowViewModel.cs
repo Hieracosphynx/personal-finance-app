@@ -9,17 +9,17 @@ namespace PersonalFinanceApp.UI.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public List<AccountViewModel> Accounts { get; } = new()
-    {
-        new AccountViewModel("Fidelity", "Brokerage", 12340.00m),
-        new AccountViewModel("Ally Bank", "Savings", 4210.50m),
-        new AccountViewModel("Wells Fargo", "Checking", 1875.20m),
-        new AccountViewModel("One Nevada", "Savings", 900.00m),
-    };
+    public ObservableCollection<AccountViewModel> Accounts { get; } = new();
+    //{
+    //    new AccountViewModel("Fidelity", "Brokerage", 12340.00m),
+    //    new AccountViewModel("Ally Bank", "Savings", 4210.50m),
+    //    new AccountViewModel("Wells Fargo", "Checking", 1875.20m),
+    //    new AccountViewModel("One Nevada", "Savings", 900.00m),
+    //};
 
     public MainWindowViewModel()
     {
-
+        LoadAccounts();
     }
 
     private async void LoadAccounts()
