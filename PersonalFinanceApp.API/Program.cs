@@ -12,12 +12,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddPlaid(builder.Configuration.GetSection("Plaid"));
 
+// Credentials
+var plaidClientId = builder.Configuration["Plaid:ClientId"];
+var plaidSecret = builder.Configuration["Plaid:Secret"];
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 
-// GET
+// GET METHODS
 app.MapGet("/accounts", async (AppDbContext db) =>
     await db.Accounts.ToListAsync());
 app.MapGet("/plaid/connect", async (PlaidClient plaid) =>
@@ -27,8 +31,13 @@ app.MapGet("/plaid/connect", async (PlaidClient plaid) =>
 });
 app.MapGet("/plaid/items", async (AppDbContext db) =>
     await db.PlaidItems.ToListAsync());
+app.MapGet("/transactions/{plaidAccountId}", async (string plaidAccountId, AppDbContext db) =>
+    await db.Transactions
+        .Where(t => t.PlaidAccountId == plaidAccountId)
+        .OrderByDescending(t => t.Date)
+        .ToListAsync());
 
-// POST
+// POST METHODS
 app.MapPost("/link-token", async (PlaidClient plaid) =>
 {
     var linkToken = await CreateLinkToken(plaid);
@@ -60,8 +69,8 @@ app.MapPost("/plaid/sync", async (PlaidClient plaid, AppDbContext db) =>
     {
         var response = await plaid.AccountsBalanceGetAsync(new()
         {
-            ClientId = builder.Configuration["Plaid:ClientId"],
-            Secret = builder.Configuration["Plaid:Secret"],
+            ClientId = plaidClientId,
+            Secret = plaidSecret,
             AccessToken = item.AccessToken
         });
 
@@ -92,6 +101,43 @@ app.MapPost("/plaid/sync", async (PlaidClient plaid, AppDbContext db) =>
     await db.SaveChangesAsync();
     return Results.Ok();
 });
+app.MapPost("/plaid/sync/transactions", async (PlaidClient plaid, AppDbContext db) =>
+{
+    var items = await db.PlaidItems.ToListAsync();
+
+    foreach (var item in items)
+    {
+        var response = await plaid.TransactionsGetAsync(new()
+        {
+            ClientId = builder.Configuration["Plaid:ClientId"],
+            Secret = builder.Configuration["Plaid:Secret"],
+            AccessToken = item.AccessToken,
+            StartDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-30)),
+            EndDate = DateOnly.FromDateTime(DateTime.UtcNow)
+        });
+
+        foreach (var t in response.Transactions)
+        {
+            var exists = await db.Transactions
+                .AnyAsync(x => x.PlaidTransactionId == t.TransactionId);
+
+            if (exists) continue;
+
+            db.Transactions.Add(new Transaction
+            {
+                PlaidTransactionId = t.TransactionId ?? "",
+                PlaidAccountId = t.AccountId ?? "",
+                Amount = t.Amount ?? 0m,
+                Date = t.Date ?? DateOnly.FromDateTime(DateTime.UtcNow),
+                Name = t.MerchantName ?? "",
+                Category = t.PersonalFinanceCategory?.Primary ?? "Uncategorized"
+            });
+        }
+    }
+
+    await db.SaveChangesAsync();
+    return Results.Ok();
+});
 
 app.UseStaticFiles();
 app.Run();
@@ -100,8 +146,8 @@ async Task<string> CreateLinkToken(PlaidClient plaid)
 {
     var response = await plaid.LinkTokenCreateAsync(new()
     {
-        ClientId = builder.Configuration["Plaid:ClientId"],
-        Secret = builder.Configuration["Plaid:Secret"],
+        ClientId = plaidClientId,
+        Secret = plaidSecret,
         ClientName = "Personal Finance App",
         Language = Going.Plaid.Entity.Language.English,
         CountryCodes = [Going.Plaid.Entity.CountryCode.Us],

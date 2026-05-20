@@ -1,62 +1,17 @@
-﻿using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Net.Http.Json;
-using PersonalFinanceApp.Core.Models;
-using CommunityToolkit.Mvvm.Input;
-
-namespace PersonalFinanceApp.UI.ViewModels;
+﻿namespace PersonalFinanceApp.UI.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<AccountViewModel> Accounts { get; } = new();
+    public AccountsViewModel Accounts { get; } = new();
+    public TransactionsViewModel Transactions { get; } = new();
 
     public MainWindowViewModel()
     {
-        _ = LoadAccounts();
-    }
-
-    [RelayCommand]
-    private async Task Sync()
-    {
-        using var http = new HttpClient();
-        await http.PostAsync("http://localhost:5101/plaid/sync", null);
-
-        Accounts.Clear();
-        await LoadAccounts();
-    }
-
-    private async Task LoadAccounts()
-    {
-        using var http = new HttpClient();
-        var accounts = await http.GetFromJsonAsync<List<Account>>("http://localhost:5101/accounts");
-
-        if (accounts is null) return;
-
-        foreach (var account in accounts)
+        Accounts.PropertyChanged += (_, e) =>
         {
-            Accounts.Add(new AccountViewModel(
-              account.Institution,
-         account.AccountType,
-               account.Balance
-            ));
-        }
-    }
-}
-
-public partial class AccountViewModel : ViewModelBase
-{
-    public string Institution { get; }
-    public string AccountType { get; }
-    public decimal Balance { get; }
-    public string DisplayName => $"{Institution} - {AccountType}";
-    public string DisplayBalance => Balance.ToString("C");
-
-    public AccountViewModel(string institution, string accountType, decimal balance)
-    {
-        Institution = institution;
-        AccountType = accountType;
-        Balance = balance;
+            if (e.PropertyName == nameof(AccountsViewModel.SelectedAccount)
+                && Accounts.SelectedAccount is not null)
+                _ = Transactions.LoadTransactions(Accounts.SelectedAccount.PlaidAccountId);
+        };
     }
 }

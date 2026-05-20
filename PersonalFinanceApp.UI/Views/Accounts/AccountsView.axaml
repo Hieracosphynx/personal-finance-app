@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:PersonalFinanceApp.UI.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="600"
+             x:Class="PersonalFinanceApp.UI.Views.Accounts.AccountsView"
+             x:DataType="vm:AccountsViewModel">
+
+     <StackPanel Margin="0 0 16 0">
+         <Grid ColumnDefinitions="* Auto" Margin="0 0 0 12">
+             <TextBlock Grid.Column="0"
+                        Text="My Accounts"
+                        FontSize="20"
+                        FontWeight="Bold"/>
+             <Button Grid.Column="1"
+                     Content="Sync"
+                     Command="{Binding SyncCommand}"/>
+         </Grid>
+         
+         <ListBox ItemsSource="{Binding Accounts}"
+                  SelectedItem="{Binding SelectedAccount}">
+             <ListBox.ItemTemplate>
+                 <DataTemplate DataType="vm:AccountViewModel">
+                     <Grid ColumnDefinitions="* Auto" Margin="0 4">
+                         <TextBlock Grid.Column="0" Text="{Binding DisplayName}"/>
+                         <TextBlock Grid.Column="1" Text="{Binding DisplayBalance}"/>
+                     </Grid>
+                 </DataTemplate>
+             </ListBox.ItemTemplate>
+         </ListBox>
+     </StackPanel>
+</UserControl>
