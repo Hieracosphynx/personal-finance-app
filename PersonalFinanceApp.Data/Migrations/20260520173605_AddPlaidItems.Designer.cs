@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PersonalFinanceApp.Data;
@@ -11,9 +12,11 @@ using PersonalFinanceApp.Data;
 namespace PersonalFinanceApp.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260520173605_AddPlaidItems")]
+    partial class AddPlaidItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,10 +46,6 @@ namespace PersonalFinanceApp.Data.Migrations
 
                     b.Property<DateTime>("LastSynced")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("PlaidAccountId")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
