@@ -16,7 +16,7 @@ namespace PersonalFinanceApp.Data.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Institution = table.Column<string>(type: "text", nullable: false),
                     AccountType = table.Column<string>(type: "text", nullable: false),
@@ -25,7 +25,7 @@ namespace PersonalFinanceApp.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.id);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                 });
         }
 

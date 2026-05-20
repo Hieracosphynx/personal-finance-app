@@ -12,7 +12,7 @@ using PersonalFinanceApp.Data;
 namespace PersonalFinanceApp.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260519051539_InitialCreate")]
+    [Migration("20260520023856_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace PersonalFinanceApp.Data.Migrations
 
             modelBuilder.Entity("PersonalFinanceApp.Core.Models.Account", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AccountType")
                         .IsRequired()
@@ -47,7 +47,7 @@ namespace PersonalFinanceApp.Data.Migrations
                     b.Property<DateTime>("LastSynced")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Accounts");
                 });
