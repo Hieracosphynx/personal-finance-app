@@ -6,6 +6,6 @@ namespace PersonalFinanceApp.Data;
 public class AppDbContext : DbContext
 {
     public DbSet<Account> Accounts { get; set; }
-
+    public DbSet<PlaidItem> PlaidItems { get; set; }
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 }
