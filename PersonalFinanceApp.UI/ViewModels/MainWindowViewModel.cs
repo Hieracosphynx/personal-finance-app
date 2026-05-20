@@ -1,28 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
 using PersonalFinanceApp.Core.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PersonalFinanceApp.UI.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
     public ObservableCollection<AccountViewModel> Accounts { get; } = new();
-    //{
-    //    new AccountViewModel("Fidelity", "Brokerage", 12340.00m),
-    //    new AccountViewModel("Ally Bank", "Savings", 4210.50m),
-    //    new AccountViewModel("Wells Fargo", "Checking", 1875.20m),
-    //    new AccountViewModel("One Nevada", "Savings", 900.00m),
-    //};
 
     public MainWindowViewModel()
     {
-        LoadAccounts();
+        _ = LoadAccounts();
     }
 
-    private async void LoadAccounts()
+    [RelayCommand]
+    private async Task Sync()
+    {
+        using var http = new HttpClient();
+        await http.PostAsync("http://localhost:5101/plaid/sync", null);
+
+        Accounts.Clear();
+        await LoadAccounts();
+    }
+
+    private async Task LoadAccounts()
     {
         using var http = new HttpClient();
         var accounts = await http.GetFromJsonAsync<List<Account>>("http://localhost:5101/accounts");
@@ -31,11 +36,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
         foreach (var account in accounts)
         {
-            Accounts.Add(
-                new AccountViewModel(
-                  account.Institution,
-                  account.AccountType,
-                  account.Balance));
+            Accounts.Add(new AccountViewModel(
+              account.Institution,
+         account.AccountType,
+               account.Balance
+            ));
         }
     }
 }
