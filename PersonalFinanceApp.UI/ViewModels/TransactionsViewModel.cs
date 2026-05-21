@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
 using PersonalFinanceApp.Core.Models;
+using Avalonia.Media;
 using CommunityToolkit.Mvvm.Input;
 
 namespace PersonalFinanceApp.UI.ViewModels;
@@ -46,8 +47,12 @@ public partial class TransactionViewModel : ViewModelBase
     public string Category { get; }
     public decimal Amount { get; }
     public DateOnly Date { get; }
-    public string DisplayAmount => Amount.ToString("C");
     public string DisplayDate => Date.ToString("MMM dd");
+
+    public string DisplayAmount => Amount >= 0
+    ? $"-{Amount.ToString("C")}"
+    : $"+{(-Amount).ToString("C")}";
+    public IBrush AmountColor => Amount >= 0 ? Brushes.Red : Brushes.Green;
 
     public TransactionViewModel(string name, string category, decimal amount, DateOnly date)
     {

@@ -26,7 +26,10 @@
                                     Text="{Binding DisplayDate}"
                                     Margin="0 0 12 0"/>
                          <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                         <TextBlock Grid.Column="2" Text="{Binding DisplayAmount}"/>
+                         <TextBlock 
+                            Grid.Column="2" 
+                            Foreground="{Binding AmountColor}"
+                            Text="{Binding DisplayAmount}"/>
                      </Grid>
                  </DataTemplate>
              </ListBox.ItemTemplate>

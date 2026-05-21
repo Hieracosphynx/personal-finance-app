@@ -1,0 +1,46 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:vm="using:PersonalFinanceApp.UI.ViewModels.Cards"
+             x:DataType="vm:LineGraphCardViewModel"
+             x:Class="PersonalFinanceApp.UI.Views.Cards.LineGraph">
+    <Border CornerRadius="8" Padding="16" Margin="0 8 0 0">
+        <StackPanel>
+            <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold" Margin="0 0 0 2"/>
+            <TextBlock Text="{Binding DisplayBalance}" Opacity="0.6" Margin="0 0 0 8"/>
+            <lvc:CartesianChart
+                Series="{Binding Series}"
+                XAxes="{Binding XAxes}"
+                YAxes="{Binding YAxes}"
+                Height="220"/>
+
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0 8 0 0">
+                <RadioButton Content="Historical" IsChecked="{Binding ShowHistorical}" GroupName="ChartMode"/>
+                <RadioButton Content="Projection" IsChecked="{Binding ShowProjection}" GroupName="ChartMode"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0 8 0 0"
+                        IsVisible="{Binding ShowProjection}">
+                <TextBlock Text="Starting Balance: $" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding StartingBalanceInput}" Width="100"/>
+                <TextBlock Text="Monthly Savings: $" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding SavingsInput}" Width="80"/>
+                <TextBlock Text="Rate:" VerticalAlignment="Center"/>
+                <TextBox Text="{Binding RateInput}" Width="50"/>
+                <TextBlock Text="%" VerticalAlignment="Center"/>
+                <Button Content="Apply" Command="{Binding ApplyInputsCommand}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0 8 0 0"
+                        IsVisible="{Binding ShowProjection}">
+                <Button Content="10yr" Command="{Binding SetYearsCommand}" CommandParameter="10"/>
+                <Button Content="20yr" Command="{Binding SetYearsCommand}" CommandParameter="20"/>
+                <Button Content="30yr" Command="{Binding SetYearsCommand}" CommandParameter="30"/>
+                <StackPanel Orientation="Horizontal" Spacing="16" Margin="0 8 0 0"
+                            IsVisible="{Binding ShowProjection}">
+                    <TextBlock Text="{Binding DisplayTotalSaved, StringFormat='Total Saved: {0}'}" />
+                    <TextBlock Text="{Binding DisplayTotalGains, StringFormat='Investment Gains: {0}'}" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>
