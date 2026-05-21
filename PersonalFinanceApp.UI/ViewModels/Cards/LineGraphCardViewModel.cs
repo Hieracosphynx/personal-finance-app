@@ -33,6 +33,14 @@ public partial class LineGraphCardViewModel : CardViewModelBase
         new Axis { Labeler = value => value.ToString("C0") }
     ];
 
+    public string DisplayBalance => CurrentBalance.ToString("C");
+    public string DisplayTotalSaved => TotalSaved.ToString("C0");
+    public string DisplayTotalGains => TotalGains.ToString("C0");
+
+    public bool IsYears10 => ProjectionYears == 10;
+    public bool IsYears20 => ProjectionYears == 20;
+    public bool IsYears30 => ProjectionYears == 30;
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(DisplayBalance))]
     private decimal _currentBalance;
@@ -45,14 +53,15 @@ public partial class LineGraphCardViewModel : CardViewModelBase
     [NotifyPropertyChangedFor(nameof(DisplayTotalGains))]
     private decimal _totalGains;
 
-    public string DisplayBalance => CurrentBalance.ToString("C");
-    public string DisplayTotalSaved => TotalSaved.ToString("C0");
-    public string DisplayTotalGains => TotalGains.ToString("C0");
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsYears10))]
+    [NotifyPropertyChangedFor(nameof(IsYears20))]
+    [NotifyPropertyChangedFor(nameof(IsYears30))]
+    private int _projectionYears = 10;
 
     [ObservableProperty] private string _startingBalanceInput = "0";
     [ObservableProperty] private string _savingsInput = "0";
     [ObservableProperty] private string _rateInput = "7";
-    [ObservableProperty] private int _projectionYears = 10;
     [ObservableProperty] private bool _showHistorical = false;
     [ObservableProperty] private bool _showProjection = true;
 

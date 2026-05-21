@@ -50,9 +50,11 @@ public partial class TransactionViewModel : ViewModelBase
     public string DisplayDate => Date.ToString("MMM dd");
 
     public string DisplayAmount => Amount >= 0
-    ? $"-{Amount.ToString("C")}"
-    : $"+{(-Amount).ToString("C")}";
-    public IBrush AmountColor => Amount >= 0 ? Brushes.Red : Brushes.Green;
+      ? $"-{Amount.ToString("C")}"
+      : $"+{(-Amount).ToString("C")}";
+    public IBrush AmountColor => Amount >= 0
+      ? new SolidColorBrush(Color.Parse("#F85149"))
+      : new SolidColorBrush(Color.Parse("#3FB950"));
 
     public TransactionViewModel(string name, string category, decimal amount, DateOnly date)
     {

@@ -2,14 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="PersonalFinanceApp.UI.App"
              xmlns:local="using:PersonalFinanceApp.UI"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
 
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
+
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+    
+    <Application.Resources>
+        <SolidColorBrush x:Key="CardBrush" Color="#161B22"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#30363D"/>
+    </Application.Resources>
+
 </Application>

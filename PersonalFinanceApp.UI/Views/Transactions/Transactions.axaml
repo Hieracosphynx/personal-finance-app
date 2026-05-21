@@ -7,33 +7,57 @@
              x:Class="PersonalFinanceApp.UI.Views.Transactions.TransactionsView"
              x:DataType="vm:TransactionsViewModel">
 
-     <StackPanel>
-         <Grid ColumnDefinitions="* Auto" Margin="0 0 0 12">
-             <TextBlock Grid.Column="0"
-                 Text="Transactions"
-                 FontSize="20"
-                 FontWeight="Bold"/>
-             <Button Grid.Column="1"
-                 Content="Sync"
-                 Command="{Binding SyncCommand}"/>
-         </Grid>
-
-         <ListBox ItemsSource="{Binding Transactions}">
-             <ListBox.ItemTemplate>
-                 <DataTemplate DataType="vm:TransactionViewModel">
-                     <Grid ColumnDefinitions="Auto * Auto" Margin="0 4">
-                         <TextBlock Grid.Column="0"
-                                    Text="{Binding DisplayDate}"
-                                    Margin="0 0 12 0"/>
-                         <TextBlock Grid.Column="1" Text="{Binding Name}"/>
-                         <TextBlock 
-                            Grid.Column="2" 
-                            Foreground="{Binding AmountColor}"
-                            Text="{Binding DisplayAmount}"/>
-                     </Grid>
-                 </DataTemplate>
-             </ListBox.ItemTemplate>
-         </ListBox>
-     </StackPanel>
+    <Border Background="{StaticResource CardBrush}"
+            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="1"
+            CornerRadius="12"
+            Padding="16">
+        <StackPanel>
+            <Grid ColumnDefinitions="* Auto" Margin="0 0 0 16">
+                <TextBlock Grid.Column="0"
+                           Text="Transactions"
+                           FontSize="16"
+                           FontWeight="SemiBold"/>
+                <Button Grid.Column="1"
+                        Content="Sync"
+                        Command="{Binding SyncCommand}"/>
+            </Grid>
+            
+            <Grid ColumnDefinitions="70 * 120 90" Margin="4 0 4 6">
+                <TextBlock Grid.Column="0" Text="Date"     FontSize="11" Opacity="0.5"/>
+                <TextBlock Grid.Column="1" Text="Name"     FontSize="11" Opacity="0.5"/>
+                <TextBlock Grid.Column="2" Text="Category" FontSize="11" Opacity="0.5"/>
+                <TextBlock Grid.Column="3" Text="Amount"   FontSize="11" Opacity="0.5" HorizontalAlignment="Right"/>
+            </Grid>
+            
+            <ListBox ItemsSource="{Binding Transactions}" Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="vm:TransactionViewModel">
+                        <Grid ColumnDefinitions="70 * 120 90" Margin="0 4">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding DisplayDate}"
+                                       FontSize="12"
+                                       Opacity="0.6"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Name}"
+                                       FontSize="13"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding Category}"
+                                       FontSize="12"
+                                       Opacity="0.6"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Grid.Column="3"
+                                       Text="{Binding DisplayAmount}"
+                                       FontSize="13"
+                                       FontWeight="SemiBold"
+                                       Foreground="{Binding AmountColor}"
+                                       HorizontalAlignment="Right"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </Border>
 
 </UserControl>

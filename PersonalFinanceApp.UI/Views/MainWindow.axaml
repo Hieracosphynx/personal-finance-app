@@ -6,16 +6,19 @@
         xmlns:cards="using:PersonalFinanceApp.UI.Views.Cards"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="800"
         x:Class="PersonalFinanceApp.UI.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="Personal Finance"
+        Background="#0D1117"
         Width="900" Height="800">
-  <Grid RowDefinitions="* Auto" Margin="16">
-      <Grid Grid.Row="0" ColumnDefinitions="300 *">
-          <accounts:AccountsView Grid.Column="0" DataContext="{Binding Accounts}"/>
-          <transactions:TransactionsView Grid.Column="1" DataContext="{Binding Transactions}"/>
-      </Grid>
-      <cards:LineGraph Grid.Row="1" DataContext="{Binding LineGraph}"/>
-  </Grid>
+
+    <Grid RowDefinitions="* Auto" Margin="16">
+        <Grid Grid.Row="0" ColumnDefinitions="260 *">
+            <accounts:AccountsView Grid.Column="0" DataContext="{Binding Accounts}"/>
+            <transactions:TransactionsView Grid.Column="1" DataContext="{Binding Transactions}"/>
+        </Grid>
+        <cards:LineGraph Grid.Row="1" DataContext="{Binding LineGraph}"/>
+    </Grid>
+
 </Window>

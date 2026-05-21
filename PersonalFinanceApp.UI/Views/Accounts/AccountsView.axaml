@@ -3,37 +3,54 @@
              xmlns:vm="using:PersonalFinanceApp.UI.ViewModels"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="600"
+             mc:Ignorable="d" d:DesignWidth="260" d:DesignHeight="600"
              x:Class="PersonalFinanceApp.UI.Views.Accounts.AccountsView"
              x:DataType="vm:AccountsViewModel">
-
-     <StackPanel Margin="0 0 16 0">
-         <Grid ColumnDefinitions="* Auto Auto" Margin="0 0 0 12">
-             <TextBlock Grid.Column="0"
-                        Text="My Accounts"
-                        FontSize="20"
-                        FontWeight="Bold"/>
-             <Button Grid.Column="1"
-                     Content="Connect"
-                     Command="{Binding ConnectBankCommand}"
-                     Margin="0 0 8 0"/>
-             <Button Grid.Column="2"
-                     Content="Sync"
-                     Command="{Binding SyncCommand}"/>
-         </Grid>
-         <ListBox ItemsSource="{Binding Accounts}"
-                  SelectedItem="{Binding SelectedAccount}">
-             <ListBox.ItemTemplate>
-                 <DataTemplate DataType="vm:AccountViewModel">
-                     <Grid ColumnDefinitions="* Auto" Margin="0 4">
-                         <TextBlock 
-                            TextTrimming="CharacterEllipsis" 
-                            Grid.Column="0" 
-                            Text="{Binding DisplayName}"/>
-                         <TextBlock Grid.Column="1" Text="{Binding DisplayBalance}"/>
-                     </Grid>
-                 </DataTemplate>
-             </ListBox.ItemTemplate>
-         </ListBox>
-     </StackPanel>
+  <Border Background="{StaticResource CardBrush}"
+          BorderBrush="{StaticResource BorderBrush}"
+          BorderThickness="1"
+          CornerRadius="12"
+          Padding="16"
+          Margin="0 0 12 0">
+      <DockPanel>
+          <TextBlock DockPanel.Dock="Top"
+                     Text="My Accounts"
+                     FontSize="16"
+                     FontWeight="SemiBold"
+                     Margin="0 0 0 16"/>
+          <Grid DockPanel.Dock="Bottom" ColumnDefinitions="* *" Margin="0 12 0 0">
+              <Button Grid.Column="0"
+                  Content="Connect"
+                  Command="{Binding ConnectBankCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Center"
+                  Margin="0 0 4 0"/>
+              <Button Grid.Column="1"
+                  Content="Sync"
+                  Command="{Binding SyncCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Center"
+                  Margin="4 0 0 0"/>
+          </Grid>
+          <ListBox ItemsSource="{Binding Accounts}"
+                   SelectedItem="{Binding SelectedAccount}"
+                   Background="Transparent">
+              <ListBox.ItemTemplate>
+                  <DataTemplate DataType="vm:AccountViewModel">
+                      <Grid ColumnDefinitions="* Auto" Margin="0 6">
+                          <TextBlock Grid.Column="0"
+                                     Text="{Binding DisplayName}"
+                                     TextTrimming="CharacterEllipsis"
+                                     FontSize="13"/>
+                          <TextBlock Grid.Column="1"
+                                     Text="{Binding DisplayBalance}"
+                                     FontSize="13"
+                                     FontWeight="SemiBold"
+                                     Foreground="#3FB950"/>
+                      </Grid>
+                  </DataTemplate>
+              </ListBox.ItemTemplate>
+          </ListBox>
+      </DockPanel>
+  </Border>
 </UserControl>
