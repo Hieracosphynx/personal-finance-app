@@ -30,8 +30,7 @@ This project is built to:
   |---|---|---|
   | [Avalonia](https://avaloniaui.net/) | 12.0.3 | UI framework |
   | [CommunityToolkit.Mvvm](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/) | 8.4.1 | MVVM source generators |
-  | [LiveChartsCore.SkiaSharpView.Avalonia](https://livecharts.dev/) | 2.1.0-dev-570 | ⚠️ Prerelease — required for Avalonia 12 compatibility,
-   stable 2.0.4 does not support Avalonia 12 |
+  | [LiveChartsCore.SkiaSharpView.Avalonia](https://livecharts.dev/) | 2.1.0-dev-570 | ⚠️ Prerelease — required for Avalonia 12 compatibility, stable 2.0.4 does not support Avalonia 12 |
   | [Going.Plaid](https://github.com/viceroypenguin/Going.Plaid) | latest | Plaid API client |
   | [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/) | latest | PostgreSQL + EF Core |
 
