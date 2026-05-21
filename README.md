@@ -2,7 +2,7 @@
 
 > A vibe coding experiment powered by Claude AI — exploring the capabilities and limitations of AI-assisted development.
 
-![Demo](demo/images/personalfinanceapp.gif)
+![Demo](docs/images/personalfinanceapp.gif)
 
 ---
 
