@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
-using PersonalFinanceApp.Core.Models;
 using CommunityToolkit.Mvvm.Input;
+using PersonalFinanceApp.Core.Models;
 
 namespace PersonalFinanceApp.UI.ViewModels;
 
@@ -74,7 +74,7 @@ public partial class AccountViewModel : ViewModelBase
     public string AccountType { get; }
     public decimal Balance { get; }
     public string DisplayName => $"{Institution} - {AccountType}";
-    public string DisplayBalance => Balance.ToString("C");
+    public string DisplayBalance => AmountFormatter.Format(Balance);
 
     public AccountViewModel(string institution, string accountType, decimal balance, string plaidAccountId)
     {
@@ -82,6 +82,7 @@ public partial class AccountViewModel : ViewModelBase
         AccountType = accountType;
         Balance = balance;
         PlaidAccountId = plaidAccountId;
+        AmountFormatter.Instance.Subscribe(nameof(AmountFormatter.HideAmounts),
+        () => OnPropertyChanged(nameof(DisplayBalance)));
     }
 }
-

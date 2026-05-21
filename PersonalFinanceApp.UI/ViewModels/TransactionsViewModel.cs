@@ -49,9 +49,7 @@ public partial class TransactionViewModel : ViewModelBase
     public DateOnly Date { get; }
     public string DisplayDate => Date.ToString("MMM dd");
 
-    public string DisplayAmount => Amount >= 0
-      ? $"-{Amount.ToString("C")}"
-      : $"+{(-Amount).ToString("C")}";
+    public string DisplayAmount => AmountFormatter.FormatSigned(Amount);
     public IBrush AmountColor => Amount >= 0
       ? new SolidColorBrush(Color.Parse("#F85149"))
       : new SolidColorBrush(Color.Parse("#3FB950"));
@@ -62,5 +60,7 @@ public partial class TransactionViewModel : ViewModelBase
         Category = category;
         Amount = amount;
         Date = date;
+        AmountFormatter.Instance.Subscribe(nameof(AmountFormatter.HideAmounts),
+    () => OnPropertyChanged(nameof(DisplayAmount)));
     }
 }

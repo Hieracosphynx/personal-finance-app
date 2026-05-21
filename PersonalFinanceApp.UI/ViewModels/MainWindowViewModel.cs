@@ -7,6 +7,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public AccountsViewModel Accounts { get; } = new();
     public TransactionsViewModel Transactions { get; } = new();
     public LineGraphCardViewModel LineGraph { get; } = new();
+    public AmountFormatter AmountFormatter => AmountFormatter.Instance;
+
     public MainWindowViewModel()
     {
         Accounts.PropertyChanged += (_, e) =>

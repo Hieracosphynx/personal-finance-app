@@ -25,9 +25,11 @@
                 <RadioButton Content="Projection" IsChecked="{Binding ShowProjection}" GroupName="ChartMode"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0 8 0 0"
-                        IsVisible="{Binding ShowProjection}">
-                <TextBlock Text="Starting Balance: $" VerticalAlignment="Center"/>
-                <TextBox Text="{Binding StartingBalanceInput}" Width="100"/>
+                    IsVisible="{Binding ShowProjection}">
+                <TextBlock Text="Starting Balance: $" VerticalAlignment="Center"
+                    IsVisible="{Binding Display.ShowAmounts}"/>
+                <TextBox Text="{Binding StartingBalanceInput}" Width="100"
+                    IsVisible="{Binding Display.ShowAmounts}"/>
                 <TextBlock Text="Monthly Savings: $" VerticalAlignment="Center"/>
                 <TextBox Text="{Binding SavingsInput}" Width="80"/>
                 <TextBlock Text="Rate:" VerticalAlignment="Center"/>
@@ -36,13 +38,13 @@
                 <Button Content="Apply" Command="{Binding ApplyInputsCommand}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0 8 0 0"
-                        IsVisible="{Binding ShowProjection}">
-                  <Button Content="10yr" Command="{Binding SetYearsCommand}" CommandParameter="10"
-                      Classes.accent="{Binding IsYears10}"/>
-                  <Button Content="20yr" Command="{Binding SetYearsCommand}" CommandParameter="20"
-                      Classes.accent="{Binding IsYears20}"/>
-                  <Button Content="30yr" Command="{Binding SetYearsCommand}" CommandParameter="30"
-                      Classes.accent="{Binding IsYears30}"/>
+                    IsVisible="{Binding ShowProjection}">
+                <Button Content="10yr" Command="{Binding SetYearsCommand}" CommandParameter="10"
+                    Classes.accent="{Binding IsYears10}"/>
+                <Button Content="20yr" Command="{Binding SetYearsCommand}" CommandParameter="20"
+                    Classes.accent="{Binding IsYears20}"/>
+                <Button Content="30yr" Command="{Binding SetYearsCommand}" CommandParameter="30"
+                    Classes.accent="{Binding IsYears30}"/>
                 <StackPanel Orientation="Horizontal" Spacing="16" Margin="0 8 0 0"
                             IsVisible="{Binding ShowProjection}">
                     <TextBlock Text="{Binding DisplayTotalSaved, StringFormat='Total Saved: {0}'}" />

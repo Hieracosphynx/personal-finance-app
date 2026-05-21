@@ -6,6 +6,11 @@
              mc:Ignorable="d" d:DesignWidth="260" d:DesignHeight="600"
              x:Class="PersonalFinanceApp.UI.Views.Accounts.AccountsView"
              x:DataType="vm:AccountsViewModel">
+    <UserControl.Styles>
+      <Style Selector="ListBoxItem">
+          <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      </Style>
+  </UserControl.Styles>
   <Border Background="{StaticResource CardBrush}"
           BorderBrush="{StaticResource BorderBrush}"
           BorderThickness="1"
@@ -46,7 +51,8 @@
                                      Text="{Binding DisplayBalance}"
                                      FontSize="13"
                                      FontWeight="SemiBold"
-                                     Foreground="#3FB950"/>
+                                     Foreground="#3FB950"
+                                     Margin="8 0 0 0"/>
                       </Grid>
                   </DataTemplate>
               </ListBox.ItemTemplate>

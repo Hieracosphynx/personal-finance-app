@@ -30,12 +30,14 @@ public partial class LineGraphCardViewModel : CardViewModelBase
     ];
     public Axis[] YAxes { get; } =
     [
-        new Axis { Labeler = value => value.ToString("C0") }
+        new Axis { Labeler = value => AmountFormatter.Format((decimal)value) }
     ];
 
-    public string DisplayBalance => CurrentBalance.ToString("C");
-    public string DisplayTotalSaved => TotalSaved.ToString("C0");
-    public string DisplayTotalGains => TotalGains.ToString("C0");
+    public AmountFormatter Display => AmountFormatter.Instance;
+
+    public string DisplayBalance => AmountFormatter.Format(CurrentBalance);
+    public string DisplayTotalSaved => AmountFormatter.Format(TotalSaved, "C0");
+    public string DisplayTotalGains => AmountFormatter.Format(TotalGains, "C0");
 
     public bool IsYears10 => ProjectionYears == 10;
     public bool IsYears20 => ProjectionYears == 20;
@@ -71,6 +73,12 @@ public partial class LineGraphCardViewModel : CardViewModelBase
     public LineGraphCardViewModel()
     {
         Title = "Balance Over Time";
+        AmountFormatter.Instance.Subscribe(nameof(AmountFormatter.HideAmounts), () =>
+        {
+            OnPropertyChanged(nameof(DisplayBalance));
+            OnPropertyChanged(nameof(DisplayTotalSaved));
+            OnPropertyChanged(nameof(DisplayTotalGains));
+        });
     }
 
     public override Task LoadAsync() => Task.CompletedTask;
